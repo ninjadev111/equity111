@@ -1,0 +1,1205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EquityOS - Tokenized Equity Agents</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #050707;
+        --ink: #f6fbf7;
+        --muted: #9da8a2;
+        --line: rgba(255, 255, 255, 0.16);
+        --green: #00d646;
+        --green-2: #b8ff00;
+        --dark: #07100c;
+        --paper: #f7f9f8;
+        --paper-ink: #111715;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        letter-spacing: 0;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .hero {
+        min-height: 700px;
+        padding: 34px clamp(28px, 4.7vw, 86px) 42px;
+        background:
+          radial-gradient(circle at 11% 5%, rgba(0, 214, 70, 0.16), transparent 23%),
+          radial-gradient(circle at 69% 16%, rgba(0, 214, 70, 0.1), transparent 31%),
+          radial-gradient(circle at 24% 88%, rgba(0, 214, 70, 0.14), transparent 30%),
+          linear-gradient(135deg, #030404 0%, #090d0d 62%, #020303 100%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      }
+
+      .nav {
+        max-width: 1760px;
+        margin: 0 auto 38px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .brand,
+      .preview,
+      .pill,
+      .cta-row,
+      .feature,
+      .agent-card,
+      .terminal-side a,
+      .mini-nav,
+      .feed-row,
+      .rights-row,
+      .soon-icons {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand {
+        gap: 13px;
+        font-size: 30px;
+        font-weight: 900;
+      }
+
+      .brand span:last-child strong {
+        color: var(--green);
+      }
+
+      .mark {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 2px solid var(--green);
+        position: relative;
+        box-shadow: 0 0 30px rgba(0, 214, 70, 0.18);
+      }
+
+      .mark::before {
+        content: "";
+        position: absolute;
+        width: 37px;
+        height: 56px;
+        left: 17px;
+        top: 7px;
+        background: linear-gradient(145deg, var(--green), #068d35);
+        clip-path: polygon(50% 0, 86% 16%, 72% 46%, 88% 72%, 54% 65%, 32% 100%, 35% 61%, 7% 74%, 24% 42%, 13% 20%);
+        transform: rotate(34deg);
+      }
+
+      .mark::after {
+        content: "";
+        position: absolute;
+        width: 44px;
+        height: 3px;
+        left: 13px;
+        top: 34px;
+        background: var(--green-2);
+        transform: rotate(-42deg);
+        border-radius: 99px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 36px;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .nav-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 46px;
+      }
+
+      .preview {
+        min-height: 38px;
+        gap: 9px;
+        padding: 0 18px;
+        color: #dbe7df;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+      }
+
+      .dot {
+        width: 9px;
+        height: 9px;
+        background: var(--green);
+        border-radius: 50%;
+        box-shadow: 0 0 14px rgba(0, 214, 70, 0.9);
+      }
+
+      .button {
+        min-height: 56px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 32px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      .button.primary {
+        color: #001807;
+        background: linear-gradient(180deg, #10ed58, #00c83d);
+        border-color: transparent;
+        box-shadow: 0 18px 60px rgba(0, 214, 70, 0.18);
+      }
+
+      .button.dark {
+        color: white;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .hero-grid {
+        max-width: 1760px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(470px, 0.78fr) minmax(640px, 1fr);
+        gap: clamp(36px, 4vw, 62px);
+        align-items: center;
+      }
+
+      .hero-copy h1 {
+        margin: 0;
+        max-width: 780px;
+        font-size: clamp(58px, 5.1vw, 86px);
+        line-height: 1.06;
+        letter-spacing: -0.02em;
+      }
+
+      .hero-copy h1 span {
+        color: var(--green);
+      }
+
+      .hero-copy p {
+        max-width: 660px;
+        margin: 30px 0 36px;
+        color: #c1cbc5;
+        font-size: 21px;
+        line-height: 1.55;
+      }
+
+      .cta-row {
+        gap: 18px;
+        margin-bottom: 50px;
+      }
+
+      .arrow {
+        margin-left: 22px;
+        font-size: 26px;
+        line-height: 1;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        max-width: 800px;
+      }
+
+      .feature {
+        align-items: flex-start;
+        gap: 14px;
+        min-height: 86px;
+        padding: 0 24px;
+        border-right: 1px solid rgba(255, 255, 255, 0.22);
+      }
+
+      .feature:first-child {
+        padding-left: 0;
+      }
+
+      .feature:last-child {
+        border-right: 0;
+      }
+
+      .icon {
+        width: 30px;
+        height: 30px;
+        color: var(--green);
+      }
+
+      .feature strong {
+        display: block;
+        margin-bottom: 7px;
+        color: white;
+        font-size: 13px;
+      }
+
+      .feature span {
+        color: #a6b0aa;
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .terminal {
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 7px;
+        background:
+          linear-gradient(180deg, rgba(0, 214, 70, 0.07), rgba(0, 0, 0, 0.04)),
+          rgba(5, 12, 10, 0.74);
+        box-shadow: 0 34px 120px rgba(0, 0, 0, 0.36);
+        overflow: hidden;
+      }
+
+      .terminal-inner {
+        display: grid;
+        grid-template-columns: 168px minmax(0, 1fr);
+        min-height: 486px;
+      }
+
+      .terminal-side {
+        padding: 18px 14px;
+        border-right: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .mini-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        font-weight: 900;
+      }
+
+      .mini-mark {
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--green);
+        border-radius: 50%;
+        position: relative;
+      }
+
+      .mini-mark::after {
+        content: "";
+        position: absolute;
+        inset: 7px 8px;
+        background: var(--green);
+        clip-path: polygon(40% 0, 88% 8%, 68% 45%, 90% 65%, 52% 61%, 24% 100%, 30% 57%, 7% 69%, 23% 35%);
+        transform: rotate(30deg);
+      }
+
+      .mini-brand strong span {
+        color: var(--green);
+      }
+
+      .terminal-side a {
+        height: 31px;
+        gap: 11px;
+        padding: 0 11px;
+        margin-bottom: 6px;
+        color: #d7e1da;
+        border-radius: 4px;
+        font-size: 12px;
+      }
+
+      .terminal-side a.active {
+        background: rgba(71, 209, 52, 0.17);
+        border: 1px solid rgba(71, 209, 52, 0.28);
+      }
+
+      .sim {
+        margin-top: 116px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 7px;
+        color: #dfe9e1;
+        font-size: 11px;
+      }
+
+      .terminal-main {
+        padding: 16px;
+      }
+
+      .ticker {
+        height: 39px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) 110px;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 12px;
+      }
+
+      .ticker span {
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+        padding-left: 16px;
+      }
+
+      .ticker b {
+        color: #b6c0ba;
+        font-weight: 500;
+      }
+
+      .pos {
+        color: var(--green);
+      }
+
+      .neg {
+        color: #ff5c62;
+      }
+
+      .risk {
+        display: grid;
+        gap: 3px;
+        padding-left: 10px;
+        color: #a9b2ae;
+        font-size: 10px;
+      }
+
+      .risk select {
+        height: 24px;
+        color: white;
+        background: #07100c;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 3px;
+        font-size: 10px;
+      }
+
+      .terminal-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 10px;
+        padding-top: 12px;
+      }
+
+      .term-card {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 7px;
+        background: rgba(0, 0, 0, 0.15);
+      }
+
+      .term-card h3 {
+        margin: 0;
+        padding: 13px 14px 4px;
+        font-size: 14px;
+      }
+
+      .market-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e9f2ed;
+        font-size: 12px;
+      }
+
+      .market-table th,
+      .market-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        text-align: left;
+      }
+
+      .market-table th {
+        color: #9aa49f;
+        font-weight: 500;
+      }
+
+      .chart {
+        min-height: 160px;
+        padding: 10px 14px 14px;
+      }
+
+      .chart-head {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+      }
+
+      .chart-head a {
+        color: var(--green);
+      }
+
+      .bars {
+        height: 118px;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+        gap: 20px;
+        padding: 16px 18px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .bar {
+        align-self: end;
+        background: var(--green);
+        min-height: 18px;
+      }
+
+      .bar.red {
+        background: #e9333d;
+      }
+
+      .bar.down {
+        align-self: start;
+        margin-top: 64px;
+      }
+
+      .labels {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        color: white;
+        font-size: 11px;
+        text-align: center;
+        padding-top: 8px;
+      }
+
+      .feed-panel {
+        display: grid;
+        gap: 9px;
+      }
+
+      .feed-panel h3 {
+        padding-bottom: 2px;
+      }
+
+      .feed-row {
+        gap: 12px;
+        padding: 9px 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: #d8e2dd;
+        font-size: 11px;
+      }
+
+      .feed-row small {
+        color: #8f9b95;
+      }
+
+      .badge {
+        width: 17px;
+        height: 17px;
+        display: grid;
+        place-items: center;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        color: var(--green);
+        font-size: 10px;
+        flex: 0 0 auto;
+      }
+
+      .rights-mini {
+        padding: 0 12px 12px;
+      }
+
+      .rights-row {
+        justify-content: space-between;
+        color: #dce7e1;
+        font-size: 11px;
+        padding: 6px 0;
+      }
+
+      .rights-row i {
+        width: 14px;
+        height: 14px;
+        display: inline-grid;
+        place-items: center;
+        margin-right: 7px;
+        color: var(--green);
+        border: 1px solid var(--green);
+        border-radius: 50%;
+        font-style: normal;
+        font-size: 9px;
+      }
+
+      .light {
+        padding: 18px clamp(28px, 4.7vw, 86px) 28px;
+        color: var(--paper-ink);
+      }
+
+      .wrap {
+        max-width: 1760px;
+        margin: 0 auto;
+      }
+
+      .agents {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border: 1px solid #d5ddda;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .agent-card {
+        gap: 22px;
+        padding: 32px 38px;
+        border-right: 1px solid #e5ebe8;
+      }
+
+      .agent-card:last-child {
+        border-right: 0;
+      }
+
+      .agent-icon {
+        width: 48px;
+        height: 48px;
+        color: #00bd3d;
+        flex: 0 0 auto;
+      }
+
+      .agent-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 17px;
+      }
+
+      .agent-card p {
+        margin: 0;
+        color: #616b66;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .demo {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: minmax(250px, 0.7fr) minmax(560px, 1.48fr) minmax(280px, 0.72fr);
+        gap: 22px;
+        padding: 14px;
+        border: 1px solid #d5ddda;
+        border-radius: 8px;
+        background: white;
+      }
+
+      .demo-copy {
+        padding: 22px 22px 0;
+      }
+
+      .demo-copy small {
+        color: #00a537;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+
+      .demo-copy h2 {
+        margin: 18px 0 14px;
+        font-size: 38px;
+        letter-spacing: -0.02em;
+      }
+
+      .demo-copy p,
+      .demo-copy li {
+        color: #61706a;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .demo-copy ul {
+        list-style: none;
+        padding: 0;
+        margin: 22px 0;
+      }
+
+      .demo-copy li {
+        margin-bottom: 10px;
+      }
+
+      .demo-copy li::before {
+        content: "✓";
+        display: inline-grid;
+        place-items: center;
+        width: 16px;
+        height: 16px;
+        margin-right: 9px;
+        border: 1px solid #00bd3d;
+        color: #00bd3d;
+        border-radius: 50%;
+        font-size: 10px;
+      }
+
+      .demo-shot {
+        border: 1px solid #d5ddda;
+        border-radius: 8px;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr) 290px;
+        min-height: 250px;
+      }
+
+      .demo-side {
+        padding: 14px 12px;
+        background: #f3f8f5;
+        border-right: 1px solid #d5ddda;
+      }
+
+      .mini-nav {
+        height: 28px;
+        gap: 10px;
+        padding: 0 9px;
+        margin-bottom: 6px;
+        border-radius: 5px;
+        color: #38433e;
+        font-size: 11px;
+      }
+
+      .mini-nav.active {
+        background: rgba(0, 200, 70, 0.16);
+      }
+
+      .demo-table {
+        padding: 18px;
+      }
+
+      .demo-table h4,
+      .demo-feed h4 {
+        margin: 0 0 10px;
+      }
+
+      .demo-table table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+      }
+
+      .demo-table th,
+      .demo-table td {
+        padding: 9px;
+        border: 1px solid #e1e8e4;
+        text-align: left;
+      }
+
+      .demo-feed {
+        padding: 18px;
+        border-left: 1px solid #d5ddda;
+      }
+
+      .waitlist {
+        padding: 26px 24px;
+        border: 1px solid #d5ddda;
+        border-radius: 8px;
+      }
+
+      .waitlist h3 {
+        margin: 0 0 8px;
+      }
+
+      .waitlist p {
+        margin: 0 0 20px;
+        color: #66736f;
+        font-size: 13px;
+      }
+
+      .waitlist label {
+        display: block;
+        margin-bottom: 14px;
+        color: #33403a;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .waitlist input,
+      .waitlist select {
+        width: 100%;
+        height: 38px;
+        margin-top: 7px;
+        border: 1px solid #d8e0dd;
+        border-radius: 6px;
+        padding: 0 11px;
+      }
+
+      .waitlist button {
+        width: 100%;
+      }
+
+      .waitlist small {
+        display: block;
+        margin-top: 10px;
+        color: #8a9691;
+        font-size: 11px;
+      }
+
+      .soon {
+        position: relative;
+        margin-top: 14px;
+        overflow: hidden;
+        min-height: 130px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background:
+          repeating-radial-gradient(circle at 6% -40%, transparent 0 18px, rgba(0, 214, 70, 0.18) 19px 20px),
+          repeating-radial-gradient(circle at 100% 150%, transparent 0 18px, rgba(0, 214, 70, 0.18) 19px 20px),
+          #030504;
+        border-radius: 8px;
+        color: white;
+      }
+
+      .soon small {
+        color: var(--green);
+        letter-spacing: 0.22em;
+        font-weight: 900;
+      }
+
+      .soon h2 {
+        margin: 10px 0 16px;
+        font-size: 38px;
+        letter-spacing: -0.02em;
+      }
+
+      .soon h2 span {
+        color: var(--green);
+      }
+
+      .soon-icons {
+        justify-content: center;
+        gap: 58px;
+        color: #d6e1dc;
+        font-size: 13px;
+      }
+
+      @media (max-width: 1280px) {
+        .hero-grid {
+          grid-template-columns: minmax(430px, 0.8fr) minmax(560px, 1fr);
+        }
+
+        .terminal-inner {
+          grid-template-columns: 142px minmax(0, 1fr);
+        }
+
+        .terminal-grid {
+          grid-template-columns: minmax(0, 1fr) 285px;
+        }
+
+        .demo {
+          grid-template-columns: minmax(240px, 0.68fr) minmax(500px, 1.32fr);
+        }
+
+        .waitlist {
+          grid-column: 1 / -1;
+        }
+      }
+
+      @media (max-width: 1080px) {
+        .nav,
+        .hero-grid,
+        .demo {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          gap: 20px;
+        }
+
+        .nav {
+          margin-bottom: 58px;
+        }
+
+        .nav-links {
+          justify-content: center;
+        }
+
+        .nav-actions {
+          justify-content: flex-start;
+        }
+
+        .hero-grid {
+          gap: 34px;
+        }
+
+        .terminal-grid,
+        .demo-shot,
+        .agents {
+          grid-template-columns: 1fr;
+        }
+
+        .demo-side {
+          border-right: 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .sim {
+          margin-top: 18px;
+        }
+
+        .agent-card {
+          border-right: 0;
+          border-bottom: 1px solid #e5ebe8;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .hero,
+        .light {
+          padding-inline: 18px;
+        }
+
+        .hero {
+          padding-top: 18px;
+          min-height: auto;
+        }
+
+        .brand {
+          font-size: 20px;
+        }
+
+        .mark {
+          width: 40px;
+          height: 40px;
+        }
+
+        .mark::before {
+          width: 24px;
+          height: 35px;
+          left: 10px;
+          top: 3px;
+        }
+
+        .mark::after {
+          width: 28px;
+          left: 7px;
+          top: 20px;
+        }
+
+        .nav {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 46px;
+        }
+
+        .nav-links,
+        .nav-actions .preview {
+          display: none;
+        }
+
+        .nav-actions {
+          gap: 0;
+        }
+
+        .nav-actions .button {
+          min-height: 42px;
+          width: auto;
+          padding: 0 16px;
+          font-size: 13px;
+        }
+
+        .hero-copy h1 {
+          font-size: clamp(42px, 12vw, 56px);
+          line-height: 1.05;
+        }
+
+        .hero-copy p {
+          margin: 24px 0 28px;
+          font-size: 18px;
+        }
+
+        .features,
+        .cta-row,
+        .soon-icons {
+          flex-wrap: wrap;
+          display: flex;
+        }
+
+        .feature {
+          width: calc(50% - 6px);
+          border-right: 0;
+          padding: 0 10px 18px 0;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .terminal {
+          margin-top: 36px;
+          border-color: rgba(255, 255, 255, 0.2);
+          background: #f7faf8;
+          color: #111715;
+        }
+
+        .terminal-inner {
+          display: block;
+          min-height: auto;
+        }
+
+        .terminal-side {
+          display: none;
+        }
+
+        .terminal-main {
+          padding: 16px;
+        }
+
+        .ticker {
+          display: none;
+        }
+
+        .terminal-grid {
+          display: block;
+          padding-top: 0;
+        }
+
+        .term-card {
+          background: white;
+          border-color: #dce5e0;
+          color: #111715;
+          margin-bottom: 12px;
+        }
+
+        .term-card h3 {
+          color: #111715;
+          font-size: 17px;
+        }
+
+        .market-table {
+          color: #111715;
+          font-size: 13px;
+        }
+
+        .market-table thead,
+        .market-table td:nth-child(3),
+        .market-table th:nth-child(3),
+        .market-table td:nth-child(5),
+        .market-table th:nth-child(5),
+        .market-table td:nth-child(6),
+        .market-table th:nth-child(6),
+        .chart,
+        .feed-panel .term-card:first-child,
+        .rights-mini {
+          display: none;
+        }
+
+        .market-table th,
+        .market-table td {
+          padding: 13px 12px;
+          border-color: #e5ece8;
+        }
+
+        .market-table th {
+          color: #65716b;
+        }
+
+        .feed-panel {
+          display: block;
+        }
+
+        .agent-card {
+          align-items: flex-start;
+          padding: 24px;
+        }
+
+        .demo {
+          padding: 12px;
+        }
+
+        .demo-copy {
+          padding: 16px 12px 0;
+        }
+
+        .demo-copy h2,
+        .soon h2 {
+          font-size: 30px;
+        }
+
+        .demo-shot {
+          display: block;
+          min-height: auto;
+        }
+
+        .demo-side,
+        .demo-feed {
+          display: none;
+        }
+
+        .demo-table {
+          padding: 14px;
+          overflow-x: auto;
+        }
+
+        .waitlist {
+          padding: 22px 18px;
+        }
+
+        .soon {
+          padding: 28px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hero">
+      <nav class="nav">
+        <a class="brand" href="#">
+          <span class="mark" aria-hidden="true"></span>
+          <span>Equity<strong>OS</strong></span>
+        </a>
+        <div class="nav-links">
+          <a href="#product">Product</a>
+          <a href="#agents">Agents</a>
+          <a href="#terminal">Terminal</a>
+          <a href="#docs">Docs</a>
+          <a href="#company">Company</a>
+        </div>
+        <div class="nav-actions">
+          <span class="preview"><i class="dot"></i>Frontend preview</span>
+          <a class="button primary" href="#waitlist">Join Waitlist</a>
+        </div>
+      </nav>
+
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1>AI agents for tokenized <span>equity markets</span></h1>
+          <p>Track dislocations, liquidity, rights, and basket risk across tokenized stocks before the market catches up.</p>
+          <div class="cta-row">
+            <a class="button primary" href="#terminal">Open Terminal <span class="arrow">→</span></a>
+            <a class="button dark" href="#waitlist">Join Waitlist</a>
+          </div>
+          <div class="features">
+            <div class="feature">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <div><strong>Real-time monitoring</strong><span>24/7 market scanning</span></div>
+            </div>
+            <div class="feature">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 20V10m5 10V5m5 15v-8m5 8V3M3 20h18" stroke="currentColor" stroke-width="2"/></svg>
+              <div><strong>AI agent insights</strong><span>Plain-English signals</span></div>
+            </div>
+            <div class="feature">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3 20 7v6c0 5-3.4 7.5-8 9-4.6-1.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="2"/><path d="m9 12 2 2 4-5" stroke="currentColor" stroke-width="2"/></svg>
+              <div><strong>Risk & rights aware</strong><span>Ownership & events</span></div>
+            </div>
+            <div class="feature">
+              <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1" stroke="currentColor" stroke-width="2"/></svg>
+              <div><strong>On-chain first</strong><span>Robinhood Chain</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal" id="terminal">
+          <div class="terminal-inner">
+            <aside class="terminal-side">
+              <div class="mini-brand"><span class="mini-mark"></span><strong>Equity<span>OS</span></strong></div>
+              <a class="active" href="#">⌁ Terminal</a>
+              <a href="#">□ Watchlist</a>
+              <a href="#">◇ Dislocations</a>
+              <a href="#">◉ Rights</a>
+              <a href="#">▥ Liquidity</a>
+              <a href="#">▦ Baskets</a>
+              <a href="#">♧ Alerts</a>
+              <a href="#">⚙ Settings</a>
+              <span class="sim"><i class="dot"></i>Simulated data</span>
+            </aside>
+            <main class="terminal-main">
+              <div class="ticker">
+                <span>SPYx <b>$517.48</b> <strong class="pos">+0.42%</strong></span>
+                <span>AAPLx <b>$194.42</b> <strong class="neg">-0.18%</strong></span>
+                <span>NVDAx <b>$172.88</b> <strong class="pos">+2.84%</strong></span>
+                <span>TSLAx <b>$248.31</b> <strong class="neg">-1.18%</strong></span>
+                <label class="risk">Risk Mode<select><option>Balanced</option></select></label>
+              </div>
+              <div class="terminal-grid">
+                <section>
+                  <div class="term-card">
+                    <h3>Watchlist</h3>
+                    <table class="market-table">
+                      <thead><tr><th>Token</th><th>Chain Price</th><th>Reference</th><th>Gap</th><th>Spread</th><th>Signal</th></tr></thead>
+                      <tbody>
+                        <tr><td><b>NVDAx</b></td><td>$172.88</td><td>$168.10</td><td class="pos">+2.84%</td><td>0.38%</td><td class="pos">High</td></tr>
+                        <tr><td><b>AAPLx</b></td><td>$194.42</td><td>$194.77</td><td class="neg">-0.18%</td><td>0.22%</td><td>Neutral</td></tr>
+                        <tr><td><b>TSLAx</b></td><td>$248.31</td><td>$251.29</td><td class="neg">-1.18%</td><td>0.45%</td><td style="color:#ffd21f">Watch</td></tr>
+                        <tr><td><b>AMZNx</b></td><td>$189.11</td><td>$188.32</td><td class="pos">+0.42%</td><td>0.31%</td><td>Neutral</td></tr>
+                        <tr><td><b>MSFTx</b></td><td>$414.55</td><td>$412.01</td><td class="pos">+0.62%</td><td>0.28%</td><td>Neutral</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="term-card chart">
+                    <div class="chart-head"><strong>Dislocation Overview</strong><a href="#">View all ›</a></div>
+                    <div class="bars"><i class="bar" style="height:56px"></i><i class="bar" style="height:18px"></i><i class="bar red down" style="height:50px"></i><i class="bar" style="height:18px"></i><i class="bar red down" style="height:12px"></i></div>
+                    <div class="labels"><span>NVDAx</span><span>AAPLx</span><span>TSLAx</span><span>AMZNx</span><span>MSFTx</span></div>
+                  </div>
+                </section>
+                <aside class="feed-panel">
+                  <div class="term-card">
+                    <h3>AI Agent Feed</h3>
+                    <div class="feed-row"><span>10:24</span><i class="badge">△</i><div><b>NVDAx dislocation widened to +2.84%</b><br><small>Spread rising on thin books.</small></div></div>
+                    <div class="feed-row"><span>10:21</span><i class="badge" style="color:#b385ff">□</i><div><b>AAPLx corporate action detected</b><br><small>Dividend payable in 3 days.</small></div></div>
+                    <div class="feed-row"><span>10:18</span><i class="badge" style="color:#ffd21f">!</i><div><b>TSLAx liquidity declined</b><br><small>Depth -34% vs 30m avg.</small></div></div>
+                    <div class="feed-row"><span>10:15</span><i class="badge" style="color:#5ba8ff">▥</i><div><b>New basket opportunity</b><br><small>AI infra basket created.</small></div></div>
+                  </div>
+                  <div class="term-card rights-mini">
+                    <h3>Rights Checker</h3>
+                    <p><b>NVDAx</b> <span style="color:#9aa49f">NVIDIA Corp.</span></p>
+                    <div class="rights-row"><span><i>✓</i>Backing</span><span>1:1 share backed</span></div>
+                    <div class="rights-row"><span><i>✓</i>Dividend</span><span>Payable in 3 days</span></div>
+                    <div class="rights-row"><span><i>✓</i>Voting</span><span>Holders eligible</span></div>
+                    <div class="rights-row"><span><i>✓</i>Transfer</span><span>Allowed</span></div>
+                  </div>
+                </aside>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="light" id="agents">
+      <div class="wrap">
+        <section class="agents">
+          <article class="agent-card"><svg class="agent-icon" viewBox="0 0 48 48" fill="none"><path d="m5 31 11-11 8 7 14-16m-33 5 11-11 8 7 14-16" stroke="currentColor" stroke-width="3"/></svg><div><strong>Dislocation Agent</strong><p>Finds price gaps between tokenized stocks and their reference markets.</p></div></article>
+          <article class="agent-card"><svg class="agent-icon" viewBox="0 0 48 48" fill="none"><path d="M24 4 40 12v12c0 10-7 16-16 20C15 40 8 34 8 24V12l16-8Z" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="24" r="5" stroke="currentColor" stroke-width="3"/></svg><div><strong>Rights Agent</strong><p>Tracks corporate actions, dividends, voting rights, and ownership terms.</p></div></article>
+          <article class="agent-card"><svg class="agent-icon" viewBox="0 0 48 48" fill="none"><path d="M24 4c9 10 14 18 14 27a14 14 0 1 1-28 0C10 22 15 14 24 4Z" stroke="currentColor" stroke-width="3"/><path d="M18 33c4 3 9 2 12-2" stroke="currentColor" stroke-width="3"/></svg><div><strong>Liquidity Agent</strong><p>Monitors order book depth, spreads, and liquidity risk in real time.</p></div></article>
+          <article class="agent-card"><svg class="agent-icon" viewBox="0 0 48 48" fill="none"><path d="M24 5v38M24 24h19M24 24 38 38M24 24V5a19 19 0 1 0 19 19H24Z" stroke="currentColor" stroke-width="3"/></svg><div><strong>Basket Agent</strong><p>Builds and rebalances thematic baskets using tokenized equities.</p></div></article>
+        </section>
+
+        <section class="demo">
+          <div class="demo-copy">
+            <small>LIVE DEMO (SIMULATED)</small>
+            <h2>EquityOS Terminal</h2>
+            <p>Explore a simulated terminal experience. All data is for preview purposes only.</p>
+            <ul><li>Simulated market & on-chain data</li><li>No wallets connected</li></ul>
+            <a class="button dark" style="color:#101715;border-color:#d8e0dd" href="#terminal">Explore Terminal <span class="arrow">→</span></a>
+          </div>
+          <div class="demo-shot">
+            <aside class="demo-side"><div class="mini-brand"><span class="mini-mark"></span><strong>EquityOS</strong></div><div class="mini-nav active">⌁ Terminal</div><div class="mini-nav">□ Watchlist</div><div class="mini-nav">◇ Dislocations</div><div class="mini-nav">◉ Rights</div><div class="mini-nav">▥ Liquidity</div><div class="mini-nav">▦ Baskets</div></aside>
+            <section class="demo-table"><h4>Watchlist</h4><table><tr><th>Token</th><th>Chain Price</th><th>Reference</th><th>Gap</th><th>Spread</th><th>Signal</th></tr><tr><td><b>NVDAx</b></td><td>$172.88</td><td>$168.10</td><td class="pos">+2.84%</td><td>0.38%</td><td class="pos">High</td></tr><tr><td><b>AAPLx</b></td><td>$194.42</td><td>$194.77</td><td class="neg">-0.18%</td><td>0.22%</td><td>Neutral</td></tr><tr><td><b>TSLAx</b></td><td>$248.31</td><td>$251.29</td><td class="neg">-1.18%</td><td>0.45%</td><td style="color:#ad8700">Watch</td></tr><tr><td><b>AMZNx</b></td><td>$189.11</td><td>$188.32</td><td class="pos">+0.42%</td><td>0.31%</td><td>Neutral</td></tr></table></section>
+            <aside class="demo-feed"><h4>AI Agent Feed</h4><div class="feed-row"><span>10:24</span><i class="badge">△</i><div><b>NVDAx dislocation widened</b><br><small>Spread rising on thin books.</small></div></div><div class="feed-row"><span>10:21</span><i class="badge">□</i><div><b>AAPLx corporate action detected</b><br><small>Dividend payable in 3 days.</small></div></div><div class="feed-row"><span>10:18</span><i class="badge">!</i><div><b>TSLAx liquidity declined</b><br><small>Depth -34% vs 30m avg.</small></div></div></aside>
+          </div>
+          <form class="waitlist" id="waitlist">
+            <h3>Join the Waitlist</h3>
+            <p>Be the first to access EquityOS.</p>
+            <label>Email address<input type="email" placeholder="you@example.com" /></label>
+            <label>What best describes you?<select><option>Trader</option><option>Builder</option><option>Researcher</option></select></label>
+            <button class="button primary" type="button">Join Waitlist <span class="arrow">→</span></button>
+            <small>No spam. We respect your inbox.</small>
+          </form>
+        </section>
+
+        <section class="soon">
+          <div>
+            <small>COMING SOON</small>
+            <h2>Built for the first wave of <span>on-chain equities.</span></h2>
+            <div class="soon-icons"><span>⌬ On-chain first</span><span>✣ AI agent powered</span><span>↗ Built for speed</span><span>◔ Designed for traders</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
