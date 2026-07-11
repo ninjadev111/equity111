@@ -1,8 +1,0 @@
-{
-  "name": "equityos-main-frontend",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "rm -rf dist && mkdir -p dist/client && cp index.html dist/client/index.html"
-  }
-}
