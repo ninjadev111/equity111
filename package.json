@@ -1,0 +1,8 @@
+{
+  "name": "equityos-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist/client && cp index.html styles.css script.js dist/client/ && cp -R assets dist/client/assets"
+  }
+}

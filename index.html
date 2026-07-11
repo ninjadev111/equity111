@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EquityOS Dapp MVP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="dapp-body">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand app-brand" href="#dashboard" aria-label="EquityOS home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>EquityOS</span>
+        </a>
+        <nav class="side-nav" aria-label="App navigation">
+          <a class="active" href="#dashboard" data-page-link="dashboard">Dashboard</a>
+          <a href="#markets" data-page-link="markets">Markets</a>
+          <a href="#rights" data-page-link="rights">Rights</a>
+          <a href="#liquidity" data-page-link="liquidity">Liquidity</a>
+          <a href="#baskets" data-page-link="baskets">Baskets</a>
+          <a href="#alerts" data-page-link="alerts">Alerts</a>
+        </nav>
+        <div class="sidebar-card">
+          <span>Network</span>
+          <strong>Robinhood Chain</strong>
+          <p>Frontend MVP with wallet-ready flows and simulated market data.</p>
+        </div>
+      </aside>
+
+      <main class="dapp-main" id="top">
+        <header class="app-topbar">
+          <div>
+            <p class="app-kicker" id="pageKicker">Tokenized equity utility dapp</p>
+            <h1 id="pageTitle">Track, verify, and organize on-chain stocks.</h1>
+          </div>
+          <div class="wallet-box" id="walletBox">
+            <div>
+              <span id="walletStatus">Wallet not connected</span>
+              <strong id="walletAddress">Connect to start</strong>
+            </div>
+            <button class="primary-action" id="connectWalletBtn" type="button">Connect Wallet</button>
+          </div>
+        </header>
+
+        <section class="page-view" id="dashboard" data-page="dashboard">
+          <section class="metric-grid" aria-label="Account overview">
+            <article class="metric-card">
+              <span>Portfolio value</span>
+              <strong id="portfolioValue">$0.00</strong>
+              <small id="portfolioDelta">Connect wallet or use demo mode</small>
+            </article>
+            <article class="metric-card">
+              <span>Watchlist</span>
+              <strong id="watchCount">0</strong>
+              <small>Tracked tokenized equities</small>
+            </article>
+            <article class="metric-card">
+              <span>Open alerts</span>
+              <strong id="alertCount">0</strong>
+              <small>Price, rights, and liquidity rules</small>
+            </article>
+            <article class="metric-card">
+              <span>Risk score</span>
+              <strong id="riskScore">--</strong>
+              <small>Based on spread and issuer terms</small>
+            </article>
+          </section>
+          <section class="page-layout dashboard-layout">
+            <section class="panel market-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Market snapshot</h2>
+                  <p>Live-style tokenized equity view with local demo balances.</p>
+                </div>
+                <a class="panel-link" href="#markets">Open markets</a>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Asset</th>
+                      <th>Chain price</th>
+                      <th>Reference</th>
+                      <th>Gap</th>
+                      <th>Spread</th>
+                      <th>Depth</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tokenRows"></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="panel activity-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Activity</h2>
+                  <p>Demo receipts and market updates.</p>
+                </div>
+              </div>
+              <div class="feed-list" id="feedList"></div>
+            </section>
+          </section>
+        </section>
+
+        <section class="page-view" id="markets" data-page="markets" hidden>
+          <section class="page-layout market-layout">
+            <section class="panel market-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Tokenized Equity Markets</h2>
+                  <p>Select an asset to inspect rights, liquidity, and basket actions.</p>
+                </div>
+                <div class="terminal-controls compact-controls">
+                  <input id="searchInput" type="search" placeholder="Search token or company" autocomplete="off" />
+                  <button type="button" id="refreshBtn">Refresh</button>
+                </div>
+              </div>
+              <div class="segmented module-tabs" role="tablist" aria-label="Market filters">
+                <button class="active" type="button" data-filter="all">All</button>
+                <button type="button" data-filter="gap">Premium / discount</button>
+                <button type="button" data-filter="risk">Risk</button>
+                <button type="button" data-filter="held">Held</button>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Asset</th>
+                      <th>Chain price</th>
+                      <th>Reference</th>
+                      <th>Gap</th>
+                      <th>Spread</th>
+                      <th>Depth</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tokenRowsPage"></tbody>
+                </table>
+              </div>
+            </section>
+            <aside class="panel action-panel">
+              <div class="panel-head">
+                <div>
+                  <h2 id="selectedSymbol">NVDAx</h2>
+                  <p id="selectedName">Nvidia tokenized equity</p>
+                </div>
+                <span class="severity high" id="severityTag">High</span>
+              </div>
+              <div class="trade-card">
+                <div class="trade-price">
+                  <span>Chain price</span>
+                  <strong id="selectedChain">$172.88</strong>
+                  <small id="selectedGap">+2.84% vs reference</small>
+                </div>
+                <label>
+                  Amount
+                  <input id="tradeAmount" type="number" min="1" value="1" />
+                </label>
+                <div class="trade-actions">
+                  <button class="primary-action" id="buyBtn" type="button">Buy demo</button>
+                  <button class="secondary-light" id="watchBtn" type="button">Add watch</button>
+                </div>
+                <p class="agent-note" id="selectedNote">NVDAx is trading above reference with a widening spread. Limit orders only until liquidity normalizes.</p>
+              </div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="page-view" id="rights" data-page="rights" hidden>
+          <section class="page-layout detail-layout">
+            <section class="panel rights-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Rights Checker</h2>
+                  <p>Issuer, backing, dividends, voting, and redemption terms for the selected token.</p>
+                </div>
+                <button class="secondary-light" id="verifyRightsBtn" type="button">Verify rights</button>
+              </div>
+              <dl class="rights-list" id="rightsList"></dl>
+            </section>
+            <aside class="panel context-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Selected asset</h2>
+                  <p>Change the selected asset from Markets to review another rights profile.</p>
+                </div>
+              </div>
+              <div class="context-stack">
+                <strong id="rightsContextSymbol">NVDAx</strong>
+                <p id="rightsContextNote">Issuer terms preview.</p>
+                <a class="panel-link" href="#markets">Change asset</a>
+              </div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="page-view" id="liquidity" data-page="liquidity" hidden>
+          <section class="page-layout detail-layout">
+            <section class="panel liquidity-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Liquidity Board</h2>
+                  <p>Spread, depth, and route quality for the selected token.</p>
+                </div>
+              </div>
+              <div class="liquidity-body">
+                <div class="bar-line">
+                  <span>Spread</span>
+                  <div><i id="spreadBar"></i></div>
+                  <strong id="spreadValue">0.92%</strong>
+                </div>
+                <div class="bar-line muted">
+                  <span>Depth</span>
+                  <div><i id="depthBar"></i></div>
+                  <strong id="depthValue">$1.8M</strong>
+                </div>
+                <div class="route-box">
+                  <span>Suggested route</span>
+                  <strong id="routeValue">Limit order only</strong>
+                </div>
+              </div>
+            </section>
+            <aside class="panel context-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Execution note</h2>
+                  <p id="liquidityContextNote">Limit orders only until liquidity normalizes.</p>
+                </div>
+              </div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="page-view" id="baskets" data-page="baskets" hidden>
+          <section class="page-layout detail-layout">
+            <section class="panel basket-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Basket Builder</h2>
+                  <p>Create a local basket and rebalance it with selected assets.</p>
+                </div>
+              </div>
+              <form class="prompt-box" id="basketForm">
+                <select id="basketPreset">
+                  <option value="semis">Semiconductor basket</option>
+                  <option value="dividend">Dividend tech basket</option>
+                  <option value="hood">Robinhood ecosystem basket</option>
+                </select>
+                <button type="submit">Build</button>
+              </form>
+              <div class="basket-list" id="basketList"></div>
+            </section>
+            <aside class="panel context-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Basket scope</h2>
+                  <p>Local presets for launch demos. No live orders are submitted.</p>
+                </div>
+              </div>
+            </aside>
+          </section>
+        </section>
+
+        <section class="page-view" id="alerts" data-page="alerts" hidden>
+          <section class="page-layout detail-layout">
+            <section class="panel alerts-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Alert Center</h2>
+                  <p>Rules are saved locally for this MVP.</p>
+                </div>
+              </div>
+              <form class="alert-form" id="alertForm">
+                <label>
+                  Rule
+                  <select id="alertRule">
+                    <option value="gap">Gap above 2%</option>
+                    <option value="spread">Spread above 0.75%</option>
+                    <option value="rights">Rights update</option>
+                  </select>
+                </label>
+                <button type="submit">Create alert</button>
+              </form>
+              <div class="feed-list" id="alertList"></div>
+            </section>
+            <aside class="panel activity-panel">
+              <div class="panel-head">
+                <div>
+                  <h2>Activity</h2>
+                  <p>Demo receipts and market updates.</p>
+                </div>
+              </div>
+              <div class="feed-list" id="feedListAlerts"></div>
+            </aside>
+          </section>
+        </section>
+
+        <footer class="site-footer app-footer">
+          <span>EquityOS MVP</span>
+          <span>Wallet-ready frontend. Demo transactions only.</span>
+          <a href="#dashboard">Dashboard</a>
+        </footer>
+      </main>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
